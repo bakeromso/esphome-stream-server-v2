@@ -29,9 +29,7 @@ using namespace esphome;
 
 void StreamServerComponent::setup()
 {
-    ESP_LOGCONFIG(TAG, "Stream Server:");
-    ESP_LOGCONFIG(TAG, "  Address:%s", ip_str.c_str());
-    ESP_LOGCONFIG(TAG, "  Port: %u", this->port_);
+    ESP_LOGCONFIG(TAG, "Setting up stream server...");
 
     struct sockaddr_in bind_addr = {};
 
@@ -51,6 +49,18 @@ void StreamServerComponent::setup()
 
     this->socket_->bind(reinterpret_cast<struct sockaddr *>(&bind_addr), sizeof(struct sockaddr_in));
     this->socket_->listen(8);
+
+    // Define and populate ip_str
+    std::string ip_str;
+    for (auto &ip : network::get_ip_addresses())
+    {
+        if (ip.is_set())
+            ip_str += " " + ip.str();
+    }
+
+    ESP_LOGCONFIG(TAG, "Stream Server:");
+    ESP_LOGCONFIG(TAG, "  Address:%s", ip_str.c_str());
+    ESP_LOGCONFIG(TAG, "  Port: %u", this->port_);
 }
 
 void StreamServerComponent::loop()
