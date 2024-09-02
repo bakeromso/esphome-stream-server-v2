@@ -90,10 +90,20 @@ void StreamServerComponent::accept()
 
 void StreamServerComponent::cleanup()
 {
-    auto discriminator = [](const Client &client)
-    { return !client.disconnected; };
-    auto last_client = std::partition(this->clients_.begin(), this->clients_.end(), discriminator);
-    this->clients_.erase(last_client, this->clients_.end());
+    // Properly close and remove disconnected clients
+    for (auto &client : this->clients_)
+    {
+        if (client.socket && client.disconnected)
+        {
+            client.socket->shutdown(SHUT_RDWR);
+            client.socket->close();
+        }
+    }
+    this->clients_.erase(
+        std::remove_if(this->clients_.begin(), this->clients_.end(),
+                       [](const Client &client)
+                       { return client.disconnected; }),
+        this->clients_.end());
 }
 
 void StreamServerComponent::read()
