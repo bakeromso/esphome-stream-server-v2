@@ -29,7 +29,9 @@ using namespace esphome;
 
 void StreamServerComponent::setup()
 {
-    ESP_LOGCONFIG(TAG, "Setting up stream server...");
+    ESP_LOGCONFIG(TAG, "Stream Server:");
+    ESP_LOGCONFIG(TAG, "  Address:%s", ip_str.c_str());
+    ESP_LOGCONFIG(TAG, "  Port: %u", this->port_);
 
     struct sockaddr_in bind_addr = {};
 
@@ -66,7 +68,7 @@ void StreamServerComponent::accept()
     std::unique_ptr<socket::Socket> socket = this->socket_->accept(reinterpret_cast<struct sockaddr *>(&client_addr), &client_addrlen);
     if (!socket)
     {
-        ESP_LOGE(TAG, "Failed to accept new client");
+        ESP_LOGE(TAG, "Failed to accept new client: %s", strerror(errno));
         return;
     }
 
