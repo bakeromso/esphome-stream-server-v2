@@ -78,7 +78,7 @@ void StreamServerComponent::accept()
     std::unique_ptr<socket::Socket> socket = this->socket_->accept(reinterpret_cast<struct sockaddr *>(&client_addr), &client_addrlen);
     if (!socket)
     {
-        ESP_LOGE(TAG, "Failed to accept new client: %s", strerror(errno));
+        // ESP_LOGE(TAG, "Failed to accept new client: %s", strerror(errno));
         return;
     }
 
