@@ -31,13 +31,13 @@ void StreamServerComponent::setup()
 {
     ESP_LOGCONFIG(TAG, "Setting up stream server...");
 
-    struct sockaddr_in bind_addr = {
-        .sin_len = sizeof(struct sockaddr_in),
-        .sin_family = AF_INET,
-        .sin_port = htons(this->port_),
-        .sin_addr = {
-            .s_addr = ESPHOME_INADDR_ANY,
-        }};
+    struct sockaddr_in bind_addr = {};
+
+    bind_addr.sin_len = sizeof(struct sockaddr_in);
+    bind_addr.sin_family = AF_INET;
+    bind_addr.sin_port = htons(this->port_);
+    bind_addr.sin_addr.s_addr = ESPHOME_INADDR_ANY;
+    memset(bind_addr.sin_zero, 0, sizeof(bind_addr.sin_zero)); // Zero-initialize sin_zero
 
     this->socket_ = socket::socket(AF_INET, SOCK_STREAM, PF_INET);
 
