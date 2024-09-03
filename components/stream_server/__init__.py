@@ -47,9 +47,10 @@ def to_code(config):
     if CONF_PORT in config:
         cg.add(var.set_port(config[CONF_PORT]))
     if CONF_IP_ADDRESS in config:
-        # Convert IPAddress to C++ expression
-        ip_address = cg.ipv4_address(config[CONF_IP_ADDRESS])
-        cg.add(var.set_ip_address(ip_address))
+        ip_address = config[CONF_IP_ADDRESS]
+        ip_address_expr = cg.RawExpression(
+            f"IPAddress({ip_address[0]}, {ip_address[1]}, {ip_address[2]}, {ip_address[3]})")
+        cg.add(var.set_ip_address(ip_address_expr))
 
     yield cg.register_component(var, config)
     yield uart.register_uart_device(var, config)
