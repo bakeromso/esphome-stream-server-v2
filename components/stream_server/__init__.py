@@ -35,7 +35,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(StreamServerComponent),
             cv.Optional(CONF_PORT): cv.port,
             cv.Optional(CONF_IP_ADDRESS): cv.ipv4,
-        }
+        }w
     )
     .extend(cv.COMPONENT_SCHEMA)
     .extend(uart.UART_DEVICE_SCHEMA)
@@ -47,7 +47,9 @@ def to_code(config):
     if CONF_PORT in config:
         cg.add(var.set_port(config[CONF_PORT]))
     if CONF_IP_ADDRESS in config:
-        cg.add(var.set_ip_address(config[CONF_IP_ADDRESS]))
+        # Convert IPAddress to C++ expression
+        ip_address = cg.ipv4_address(config[CONF_IP_ADDRESS])
+        cg.add(var.set_ip_address(ip_address))
 
     yield cg.register_component(var, config)
     yield uart.register_uart_device(var, config)
