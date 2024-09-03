@@ -175,7 +175,7 @@ StreamServerComponent::Client::Client(std::unique_ptr<esphome::socket::Socket> s
 {
 }
 
-void set_ip_address(const esphome::network::IPAddress &ip_address)
-{
+void StreamServerComponent::set_ip_address(const esphome::IPAddress &ip_address)
+{ // <-- Use esphome::IPAddress
     this->ip_address_ = ip_address;
 }

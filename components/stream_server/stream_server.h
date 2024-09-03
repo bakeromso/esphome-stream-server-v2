@@ -19,6 +19,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/socket/socket.h"
 #include "esphome/components/uart/uart.h"
+#include "esphome/core/network.h"
 
 #include <memory>
 #include <string>
