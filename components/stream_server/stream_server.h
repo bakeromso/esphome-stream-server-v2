@@ -19,7 +19,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/socket/socket.h"
 #include "esphome/components/uart/uart.h"
-#include "esphome/core/network.h" // <-- Include the correct header for IPAddress
+#include "esphome/components/network/util.h" // <-- Use this header for IPAddress2
 
 #include <memory>
 #include <string>
