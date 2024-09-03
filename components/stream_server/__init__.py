@@ -48,8 +48,10 @@ def to_code(config):
         cg.add(var.set_port(config[CONF_PORT]))
     if CONF_IP_ADDRESS in config:
         ip_address = config[CONF_IP_ADDRESS]
+        ip_address_str = str(ip_address)  # Convert IPAddress object to string
+        octets = ip_address_str.split('.')  # Split the string into octets
         ip_address_expr = cg.RawExpression(
-            f"IPAddress({ip_address.octet1()}, {ip_address.octet2()}, {ip_address.octet3()}, {ip_address.octet4()})"
+            f"IPAddress({octets[0]}, {octets[1]}, {octets[2]}, {octets[3]})"
         )
         cg.add(var.set_ip_address(ip_address_expr))
 
