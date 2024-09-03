@@ -35,7 +35,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(StreamServerComponent),
             cv.Optional(CONF_PORT): cv.port,
             cv.Optional(CONF_IP_ADDRESS): cv.ipv4,
-        }w
+        }
     )
     .extend(cv.COMPONENT_SCHEMA)
     .extend(uart.UART_DEVICE_SCHEMA)
