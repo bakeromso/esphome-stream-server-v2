@@ -19,7 +19,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/socket/socket.h"
 #include "esphome/components/uart/uart.h"
-#include "esphome/components/network/util.h" // <-- Use this header for IPAddress2
+#include "esphome/components/network/util.h" // <-- Include network utilities for IPAddress
 
 #include <memory>
 #include <string>
@@ -42,6 +42,9 @@ public:
     void set_port(uint16_t port) { this->port_ = port; }
     int get_client_count() { return this->clients_.size(); }
 
+    // New setter method for IP address
+    void set_ip_address(const esphome::network::IPAddress &ip_address); // <-- Added
+
 protected:
     void accept();
     void cleanup();
@@ -62,5 +65,6 @@ protected:
     uint16_t port_{6638};
     std::vector<Client> clients_{};
 
-    esphome::network::IPAddress ip_address_;
+    // New member variable to store the IP address
+    esphome::network::IPAddress ip_address_; // <-- Added
 };

@@ -23,8 +23,6 @@
 #include "esphome/components/network/util.h"
 #include "esphome/components/socket/socket.h"
 
-#include "esphome/components/network/util.h" // <-- Use this header for IPAddress
-
 static const char *TAG = "streamserver";
 
 using namespace esphome;
@@ -177,7 +175,7 @@ StreamServerComponent::Client::Client(std::unique_ptr<esphome::socket::Socket> s
 {
 }
 
-void StreamServerComponent::set_ip_address(const esphome::network::IPAddress &ip_address)
-{ // <-- Use esphome::network::IPAddress
+void StreamServerComponent::set_ip_address(const network::IPAddress &ip_address)
+{
     this->ip_address_ = ip_address;
 }
