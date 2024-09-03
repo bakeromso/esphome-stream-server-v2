@@ -16,7 +16,7 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import uart
-from esphome.const import CONF_ID, CONF_PORT
+from esphome.const import CONF_ID, CONF_PORT, CONF_IP_ADDRESS
 
 # ESPHome doesn't know the Stream abstraction yet, so hardcode to use a UART for now.
 
@@ -30,20 +30,24 @@ ns = cg.global_ns
 StreamServerComponent = ns.class_("StreamServerComponent", cg.Component)
 
 CONFIG_SCHEMA = (
-	cv.Schema(
-		{
-			cv.GenerateID(): cv.declare_id(StreamServerComponent),
-			cv.Optional(CONF_PORT): cv.port,
-		}
-	)
-		.extend(cv.COMPONENT_SCHEMA)
-		.extend(uart.UART_DEVICE_SCHEMA)
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.declare_id(StreamServerComponent),
+            cv.Optional(CONF_PORT): cv.port,
+            cv.Optional(CONF_IP_ADDRESS): cv.ipv4,
+        }
+    )
+    .extend(cv.COMPONENT_SCHEMA)
+    .extend(uart.UART_DEVICE_SCHEMA)
 )
 
-def to_code(config):
-	var = cg.new_Pvariable(config[CONF_ID])
-	if CONF_PORT in config:
-		cg.add(var.set_port(config[CONF_PORT]))
 
-	yield cg.register_component(var, config)
-	yield uart.register_uart_device(var, config)
+def to_code(config):
+    var = cg.new_Pvariable(config[CONF_ID])
+    if CONF_PORT in config:
+        cg.add(var.set_port(config[CONF_PORT]))
+    if CONF_IP_ADDRESS in config:
+        cg.add(var.set_ip_address(config[CONF_IP_ADDRESS]))
+
+    yield cg.register_component(var, config)
+    yield uart.register_uart_device(var, config)

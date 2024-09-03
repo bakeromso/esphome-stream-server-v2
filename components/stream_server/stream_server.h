@@ -24,7 +24,8 @@
 #include <string>
 #include <vector>
 
-class StreamServerComponent : public esphome::Component {
+class StreamServerComponent : public esphome::Component
+{
 public:
     StreamServerComponent() = default;
     explicit StreamServerComponent(esphome::uart::UARTComponent *stream) : stream_{stream} {}
@@ -38,15 +39,16 @@ public:
     float get_setup_priority() const override { return esphome::setup_priority::AFTER_WIFI; }
 
     void set_port(uint16_t port) { this->port_ = port; }
-	int get_client_count() { return this->clients_.size(); }
-	
+    int get_client_count() { return this->clients_.size(); }
+
 protected:
     void accept();
     void cleanup();
     void read();
     void write();
 
-    struct Client {
+    struct Client
+    {
         Client(std::unique_ptr<esphome::socket::Socket> socket, std::string identifier);
 
         std::unique_ptr<esphome::socket::Socket> socket{nullptr};
@@ -58,4 +60,6 @@ protected:
     std::unique_ptr<esphome::socket::Socket> socket_{};
     uint16_t port_{6638};
     std::vector<Client> clients_{};
+
+    esphome::network::IPAddress ip_address_;
 };
