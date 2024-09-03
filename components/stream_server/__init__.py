@@ -49,7 +49,8 @@ def to_code(config):
     if CONF_IP_ADDRESS in config:
         ip_address = config[CONF_IP_ADDRESS]
         ip_address_expr = cg.RawExpression(
-            f"IPAddress({ip_address[0]}, {ip_address[1]}, {ip_address[2]}, {ip_address[3]})")
+            f"IPAddress({ip_address.octet1()}, {ip_address.octet2()}, {ip_address.octet3()}, {ip_address.octet4()})"
+        )
         cg.add(var.set_ip_address(ip_address_expr))
 
     yield cg.register_component(var, config)
