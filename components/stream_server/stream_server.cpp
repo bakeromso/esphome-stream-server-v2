@@ -23,6 +23,8 @@
 #include "esphome/components/network/util.h"
 #include "esphome/components/socket/socket.h"
 
+#include "esphome/core/network.h" // <-- Include the correct header for IPAddress
+
 static const char *TAG = "streamserver";
 
 using namespace esphome;
